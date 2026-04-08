@@ -27,7 +27,7 @@ SECURE_PROXY_SSL_HEADER = None
 # Allow all origins for testing
 CORS_ALLOW_ALL_ORIGINS = True  # If you have django-cors-headers
 # For localhost HTTPS
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '56.228.28.4']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '56.228.28.4', 'www.sanjeriperfume.in', 'sanjeriperfume.in', '209.38.123.149']
 # CSRF_TRUSTED_ORIGINS = [
 #     'http://localhost:8000',
 #     'https://localhost:8000',
@@ -202,7 +202,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
     'https://localhost:8000',
     'https://127.0.0.1:8000',
-    'http://209.38.123.149'
+    'http://209.38.123.149',
+    'https://sanjeriperfume.in',
+    'https://www.sanjeriperfume.in'
 ]
 
 

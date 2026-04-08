@@ -294,9 +294,14 @@ Sanjeri Perfumes
 
 
     # Fire email in a background thread — view returns instantly, no 504!
+    import os
+    resend_key = os.getenv('RESEND_API_KEY')
+    if not resend_key and hasattr(settings, 'ANYMAIL'):
+        resend_key = settings.ANYMAIL.get('RESEND_API_KEY')
+        
     email_thread = threading.Thread(
         target=_send_email_via_resend,
-        args=(settings.RESEND_API_KEY, settings.DEFAULT_FROM_EMAIL, email, subject, body),
+        args=(resend_key, settings.DEFAULT_FROM_EMAIL, email, subject, body),
         daemon=True  # Thread dies with process, no cleanup needed
     )
     email_thread.start()
