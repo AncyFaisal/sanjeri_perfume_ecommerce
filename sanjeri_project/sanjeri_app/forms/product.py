@@ -42,8 +42,11 @@ class ProductForm(forms.ModelForm):
                 raise ValidationError('Unsupported file format. Please use JPG, JPEG, PNG, or WebP.')
             
             # Validate file size (max 5MB)
-            if main_image.size > 5 * 1024 * 1024:
-                raise ValidationError('Image file too large ( > 5MB )')
+            try:
+                if main_image.size > 5 * 1024 * 1024:
+                    raise ValidationError('Image file too large ( > 5MB )')
+            except FileNotFoundError:
+                pass
                 
         return main_image
 
@@ -154,8 +157,11 @@ class ProductVariantForm(forms.ModelForm):
                 raise ValidationError('Unsupported file format. Please use JPG, JPEG, PNG, or WebP.')
             
             # Validate file size (max 5MB)
-            if variant_image.size > 5 * 1024 * 1024:
-                raise ValidationError('Image file too large ( > 5MB )')
+            try:
+                if variant_image.size > 5 * 1024 * 1024:
+                    raise ValidationError('Image file too large ( > 5MB )')
+            except FileNotFoundError:
+                pass
                 
         return variant_image
 
@@ -252,8 +258,11 @@ class ProductImageForm(forms.Form):
             if ext not in valid_extensions:
                 raise ValidationError(f'Unsupported file format for {image.name}. Please use JPG, JPEG, PNG, or WebP.')
             
-            if image.size > 5 * 1024 * 1024:
-                raise ValidationError(f'Image {image.name} is too large ( > 5MB )')
+            try:
+                if image.size > 5 * 1024 * 1024:
+                    raise ValidationError(f'Image {image.name} is too large ( > 5MB )')
+            except FileNotFoundError:
+                pass
         
         return images
 
