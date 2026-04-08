@@ -5,6 +5,7 @@
 from datetime import timedelta
 import secrets
 import time
+import threading
 
 import requests
 from django.conf import settings
@@ -12,21 +13,15 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
-from django.core.mail import send_mail
+
 from django.shortcuts import render, redirect
-# from google.oauth2 import id_token
-# from google.auth.transport import requests as grequests
 from django.utils import timezone
 from django.contrib.auth.models import User
 from ..models import CustomUser
 import re
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-import secrets
-import time
+import resend
 
 # ---------------------------------------------------------------------------
 User = get_user_model()
@@ -39,14 +34,34 @@ def _otp_key(purpose: str, email: str) -> str:
     """Build a namespaced cache key so signup/forgot OTPs never clash."""
     return f"otp:{purpose}:{email}"
 
-def generate_and_send_otp(email: str, username: str, purpose: str, ttl_seconds: int = 120) -> int:
-
+def _send_email_via_resend(api_key: str, from_email: str, to_email: str, subject: str, body: str):
     """
-    Generates a 6-digit OTP, stores it in cache for `ttl_seconds`, and emails it.
+    Sends email via Resend API. Runs in a background thread so it never
+    blocks the Gunicorn worker and avoids 504 Gateway Timeout.
+    """
+    try:
+        resend.api_key = api_key
+        resend.Emails.send({
+            "from": from_email,
+            "to": [to_email],
+            "subject": subject,
+            "text": body,
+        })
+        print(f"[Resend] Email sent successfully to {to_email} | Subject: {subject}")
+    except Exception as e:
+        print(f"[Resend] Email sending FAILED to {to_email}: {e}")
+
+
+def generate_and_send_otp(email: str, username: str, purpose: str, ttl_seconds: int = 120) -> int:
+    """
+    Generates a 6-digit OTP, stores it in cache IMMEDIATELY (synchronous),
+    then fires the Resend email in a background thread so the view returns
+    instantly and never hits the Gunicorn 30s timeout.
     purpose: "signup" | "forgot" | "email_change" | "password_change"
     """
     otp = secrets.randbelow(900000) + 100000  # 100000..999999
     key = _otp_key(purpose, email)
+    # Store OTP in cache FIRST — this is instant and must complete before view redirects
     cache.set(key, {"otp": otp, "issued_at": int(time.time())}, ttl_seconds)
 
     if purpose == "signup":
@@ -277,17 +292,15 @@ Sanjeri Perfumes
 🔒 For security reasons, never forward this email to anyone.
 """
 
-    try:
-	    send_mail(
-            subject=subject,
-            message=body,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[email],
-            fail_silently=False,
-        )
-    except Exception as e:
-        print(f"Email sending failed: {e}")
-        raise
+
+    # Fire email in a background thread — view returns instantly, no 504!
+    email_thread = threading.Thread(
+        target=_send_email_via_resend,
+        args=(settings.RESEND_API_KEY, settings.DEFAULT_FROM_EMAIL, email, subject, body),
+        daemon=True  # Thread dies with process, no cleanup needed
+    )
+    email_thread.start()
+    print(f"[OTP] Cached OTP for {email} (purpose={purpose}). Email thread started.")
     return otp
 
 
