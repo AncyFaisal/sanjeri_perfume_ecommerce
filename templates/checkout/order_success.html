@@ -1,0 +1,89 @@
+<!-- checkout/order_success.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Successful - Sanjeri{% endblock %}
+
+{% block content %}
+
+
+            <!-- Update header with better illustration -->
+            <!-- <div class="card-header bg-success text-white text-center py-4"> -->
+                <!-- Better illustration -->
+                <!-- <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                </div>
+                <h1 class="h2 mb-0">Order Confirmed!</h1>
+                <p class="mb-0 mt-2">Thank you for your order</p>
+            </div>
+             -->
+            <!-- Rest of your existing success page content -->
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <i class="fas fa-check-circle fa-3x mb-3"></i>
+                    <h1 class="h2 mb-0">Order Confirmed!</h1>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <p class="lead">Thank you for your order. We've received your payment and will process it shortly.</p>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Order Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Order Number:</strong></p>
+                                    <p><strong>Order Date:</strong></p>
+                                    <p><strong>Total Amount:</strong></p>
+                                    <p><strong>Payment Method:</strong></p>
+                                    <p><strong>Status:</strong></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{ order.order_number }}</p>
+                                    <p>{{ order.created_at|date:"F d, Y" }}</p>
+                                    <p class="text-success fw-bold">₹{{ order.total_amount|floatformat:2 }}</p>
+                                    <p>{{ order.get_payment_method_display }}</p>
+                                    <p><span class="badge bg-success">{{ order.get_status_display }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- What's Next -->
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-info-circle me-2"></i>What happens next?</h6>
+                        <ul class="mb-0">
+                            <li>You'll receive an order confirmation email</li>
+                            <li>We'll prepare your order for shipping</li>
+                            <li>You'll get tracking information once shipped</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-center mt-4">
+                        <a href="{% url 'order_detail' order.id %}" class="btn btn-primary px-4">
+                            <i class="fas fa-eye me-2"></i>View Order Details
+                        </a>
+                        <a href="{% url 'homepage' %}" class="btn btn-outline-primary px-4 ms-md-2">
+                            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

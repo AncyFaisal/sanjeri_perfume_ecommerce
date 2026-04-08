@@ -1,0 +1,951 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load math_filters %}
+
+{% block title %}Order #{{ order.order_number }} - Sanjeri{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #431405;
+        --secondary-color: #5a2a1a;
+        --accent-color: #c7a17a;
+        --light-bg: #fff8f5;
+        --dark-text: #2c2c2c;
+        --border-light: #e9e2dc;
+    }
+
+    /* Hero Section */
+    .order-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        padding: 40px 0;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .order-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        animation: shimmer 20s linear infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(30px, 30px); }
+    }
+    
+    .order-hero h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .order-hero p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-custom {
+        background: white;
+        border-radius: 50px;
+        padding: 10px 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .breadcrumb-custom a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .breadcrumb-custom a:hover {
+        color: var(--accent-color);
+    }
+    
+    .breadcrumb-custom .active {
+        color: var(--accent-color);
+        font-weight: 500;
+    }
+
+    /* Cards */
+    .order-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid var(--border-light);
+        overflow: hidden;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .order-card:hover {
+        box-shadow: 0 8px 25px rgba(67, 20, 5, 0.08);
+    }
+    
+    .order-card-header {
+        background: linear-gradient(135deg, #faf7f4 0%, #f5f0ea 100%);
+        padding: 18px 25px;
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .order-card-header h5 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .order-card-body {
+        padding: 25px;
+    }
+
+    /* Status Badges */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        gap: 8px;
+    }
+    
+    .status-badge.delivered {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-badge.confirmed {
+        background: #cce5ff;
+        color: #004085;
+    }
+    
+    .status-badge.shipped {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .status-badge.pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-badge.cancelled,
+    .status-badge.refunded {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .status-badge.return_requested {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .payment-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        gap: 5px;
+    }
+    
+    .payment-badge.completed,
+    .payment-badge.success {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .payment-badge.failed {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .payment-badge.pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .payment-badge.refunded {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .btn-outline-custom {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        border-radius: 30px;
+        padding: 8px 20px;
+        color: var(--primary-color);
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-outline-custom:hover {
+        background: #f8f5f2;
+        border-color: var(--primary-color);
+    }
+    
+    .btn-danger-custom {
+        background: transparent;
+        border: 1px solid #dc3545;
+        border-radius: 30px;
+        padding: 8px 20px;
+        color: #dc3545;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-danger-custom:hover {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .btn-warning-custom {
+        background: transparent;
+        border: 1px solid #ffc107;
+        border-radius: 30px;
+        padding: 8px 20px;
+        color: #ffc107;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+    
+    .btn-warning-custom:hover {
+        background: #ffc107;
+        color: white;
+    }
+    
+    .btn-success-custom {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-success-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    /* Order Items */
+    .order-item-card {
+        border: 1px solid var(--border-light);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .order-item-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .order-item-card.cancelled {
+        background: #faf7f4;
+        opacity: 0.8;
+    }
+    
+    .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+    
+    .product-name {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 5px;
+    }
+    
+    .variant-details {
+        font-size: 0.8rem;
+        color: #7a6a5c;
+    }
+    
+    /* Alert Cards */
+    .alert-custom {
+        background: #fff3e6;
+        border: 1px solid #ffd9b5;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .alert-custom-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+    
+    /* Wallet & Razorpay Badges */
+    .wallet-badge {
+        background: linear-gradient(135deg, #fff3cd, #ffe6b3);
+        color: #856404;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .razorpay-badge {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1e40af;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    /* Summary */
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .summary-row:last-child {
+        border-bottom: none;
+    }
+    
+    .summary-total {
+        padding-top: 15px;
+        margin-top: 15px;
+        border-top: 2px solid var(--border-light);
+    }
+    
+    /* Address Card */
+    .address-card {
+        background: #faf7f4;
+        border-radius: 16px;
+        padding: 20px;
+    }
+    
+    /* Help Card */
+    .help-card {
+        background: linear-gradient(135deg, #faf7f4 0%, #f5f0ea 100%);
+        border-radius: 16px;
+        padding: 25px;
+        text-align: center;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .order-hero h1 {
+            font-size: 1.5rem;
+        }
+        
+        .order-card-header h5 {
+            font-size: 1.1rem;
+        }
+        
+        .order-card-body {
+            padding: 20px;
+        }
+        
+        .product-image {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .action-buttons .btn {
+            width: 100%;
+        }
+        
+        .text-md-end {
+            text-align: left !important;
+            margin-top: 10px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .order-hero h1 {
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb-custom {
+            font-size: 0.8rem;
+        }
+        
+        .order-item-card {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="order-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="text-white">Order Details</h1>
+                <p class="text-white-50">Track and manage your order</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="status-badge {{ order.status }}">
+                    <i class="fas fa-{% if order.status == 'delivered' %}check-circle{% elif order.status == 'cancelled' %}times-circle{% elif order.status == 'pending' %}clock{% elif order.status == 'shipped' %}truck{% else %}info-circle{% endif %}"></i>
+                    {{ order.get_status_display }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-custom">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'homepage' %}"><i class="fas fa-home me-1"></i>Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'order_list' %}"><i class="fas fa-shopping-bag me-1"></i>My Orders</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <i class="fas fa-receipt me-1"></i>Order #{{ order.order_number }}
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+            <!-- Order Header Card -->
+            <div class="order-card">
+                <div class="order-card-header">
+                    <h5>
+                        <i class="fas fa-receipt"></i>
+                        Order #{{ order.order_number }}
+                    </h5>
+                </div>
+                <div class="order-card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <i class="far fa-calendar me-2 text-muted"></i>
+                                {{ order.created_at|date:"F d, Y - h:i A" }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="action-buttons">
+                                <a href="{% url 'download_invoice' order.id %}" class="btn-outline-custom">
+                                    <i class="fas fa-download me-2"></i>Invoice
+                                </a>
+                                
+                                {% if order.can_be_cancelled %}
+                                <form method="POST" action="{% url 'cancel_order' order.id %}" 
+                                      onsubmit="return confirm('Are you sure you want to cancel this entire order? This action cannot be undone.')" 
+                                      style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-danger-custom">
+                                        <i class="fas fa-times me-2"></i>Cancel Order
+                                    </button>
+                                </form>
+                                {% endif %}
+                                
+                                {% if order.can_be_returned %}
+                                <button type="button" class="btn-warning-custom" 
+                                        data-bs-toggle="modal" data-bs-target="#returnOrderModal">
+                                    <i class="fas fa-undo-alt me-2"></i>Return Order
+                                </button>
+                                {% endif %}
+                                
+                                {% if order.payment_status == 'pending' and order.can_pay_online %}
+                                <button class="btn-success-custom" id="payNowBtn" data-order-id="{{ order.id }}">
+                                    <i class="fas fa-credit-card me-2"></i>Pay ₹{{ order.amount_to_pay|floatformat:2 }}
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return Status Alerts -->
+            {% if order.return_status == 'requested' %}
+            <div class="alert-custom">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-clock me-3 mt-1" style="font-size: 1.2rem;"></i>
+                    <div>
+                        <h6 class="mb-2 fw-bold">Return Request Submitted</h6>
+                        <p class="mb-2"><strong>Reason:</strong> {{ order.return_reason }}</p>
+                        <p class="mb-0 small">Your return request is under review. Refund will be processed after admin approval.</p>
+                    </div>
+                </div>
+            </div>
+            {% elif order.return_status == 'approved' %}
+            <div class="alert-custom-success">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-check-circle me-3 mt-1" style="font-size: 1.2rem; color: #155724;"></i>
+                    <div>
+                        <h6 class="mb-2 fw-bold text-success">Return Approved</h6>
+                        <p class="mb-0">Your return request has been approved. Refund has been processed.</p>
+                    </div>
+                </div>
+            </div>
+            {% elif order.return_status == 'rejected' %}
+            <div class="alert-custom" style="background: #f8d7da; border-color: #f5c6cb;">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-times-circle me-3 mt-1" style="font-size: 1.2rem; color: #721c24;"></i>
+                    <div>
+                        <h6 class="mb-2 fw-bold text-danger">Return Request Rejected</h6>
+                        <p class="mb-2"><strong>Reason:</strong> {{ order.return_rejection_reason }}</p>
+                        <p class="mb-0">Please contact support if you have questions.</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Payment Information Card -->
+            <div class="order-card">
+                <div class="order-card-header">
+                    <h5>
+                        <i class="fas fa-credit-card"></i>
+                        Payment Information
+                    </h5>
+                </div>
+                <div class="order-card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-3">
+                                <strong class="d-block mb-2">Payment Method</strong>
+                                {{ order.get_payment_method_display }}
+                            </p>
+                            <p class="mb-0">
+                                <strong class="d-block mb-2">Payment Status</strong>
+                                <span class="payment-badge {{ order.payment_status }}">
+                                    <i class="fas fa-{% if order.payment_status == 'completed' %}check-circle{% elif order.payment_status == 'failed' %}times-circle{% else %}clock{% endif %}"></i>
+                                    {{ order.get_payment_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            {% if order.wallet_used %}
+                            <p class="mb-3">
+                                <strong class="d-block mb-2">Wallet Payment</strong>
+                                <span class="wallet-badge">
+                                    <i class="fas fa-wallet me-1"></i>₹{{ order.wallet_amount|floatformat:2 }}
+                                </span>
+                            </p>
+                            {% endif %}
+                            
+                            {% if order.razorpay_payment_id %}
+                            <p class="mb-0">
+                                <strong class="d-block mb-2">Razorpay ID</strong>
+                                <span class="razorpay-badge">
+                                    <i class="fab fa-razorpay me-1"></i>{{ order.razorpay_payment_id|truncatechars:20 }}
+                                </span>
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items Card -->
+            <div class="order-card">
+                <div class="order-card-header">
+                    <h5>
+                        <i class="fas fa-box"></i>
+                        Order Items ({{ order.items.count }})
+                    </h5>
+                </div>
+                <div class="order-card-body">
+                    {% for item in order.items.all %}
+                    <div class="order-item-card {% if item.is_cancelled %}cancelled{% endif %}">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center text-md-start">
+                                {% if item.product_image %}
+                                <img src="{{ item.product_image.url }}" alt="{{ item.product_name }}" 
+                                     class="product-image">
+                                {% else %}
+                                <img src="{% static 'images/placeholder.jpg' %}" alt="No Image" 
+                                     class="product-image">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="product-name">
+                                    {{ item.product_name }}
+                                    {% if item.is_cancelled %}
+                                    <span class="badge bg-danger ms-2">Cancelled</span>
+                                    {% endif %}
+                                </div>
+                                <div class="variant-details">{{ item.variant_details }}</div>
+                                <div class="mt-2">
+                                    <span class="me-3">Qty: {{ item.quantity }}</span>
+                                    <span>₹{{ item.unit_price|floatformat:2 }} each</span>
+                                </div>
+                                {% if item.cancellation_reason %}
+                                <div class="small text-danger mt-2">
+                                    <i class="fas fa-info-circle me-1"></i>{{ item.cancellation_reason }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <h5 class="mb-2 {% if item.is_cancelled %}text-decoration-line-through text-muted{% endif %}">
+                                    ₹{{ item.total_price|floatformat:2 }}
+                                </h5>
+                                
+                                {% if not item.is_cancelled and order.can_be_cancelled %}
+                                <form method="POST" action="{% url 'cancel_order_item' item.id %}" 
+                                      onsubmit="return confirm('Are you sure you want to cancel {{ item.product_name }}?')" 
+                                      style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-danger-custom" style="padding: 5px 15px; font-size: 0.75rem;">
+                                        <i class="fas fa-times"></i> Cancel Item
+                                    </button>
+                                </form>
+                                {% endif %}
+
+                                {% if order.status == 'delivered' and not item.is_cancelled and item.return_status == 'not_requested' %}
+                                <a href="{% url 'request_item_return' item.id %}" class="btn-warning-custom" style="padding: 5px 15px; font-size: 0.75rem; display: inline-block; margin-top: 8px;">
+                                    <i class="fas fa-undo-alt"></i> Return Item
+                                </a>
+                                {% endif %}
+                                
+                                {% if item.return_status == 'requested' %}
+                                <span class="badge bg-warning mt-2 d-block">Return Requested</span>
+                                {% elif item.return_status == 'approved' %}
+                                <span class="badge bg-success mt-2 d-block">Return Approved</span>
+                                {% elif item.return_status == 'rejected' %}
+                                <span class="badge bg-danger mt-2 d-block">Return Rejected</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+            <!-- Order Summary Card -->
+            <div class="order-card">
+                <div class="order-card-header">
+                    <h5>
+                        <i class="fas fa-receipt"></i>
+                        Order Summary
+                    </h5>
+                </div>
+                <div class="order-card-body">
+                    <div class="summary-row">
+                        <span class="text-muted">Subtotal</span>
+                        <span>₹{{ order.subtotal|floatformat:2 }}</span>
+                    </div>
+                    
+                    {% if order.coupon_discount > 0 %}
+                    <div class="summary-row text-success">
+                        <span>Coupon Discount</span>
+                        <span>-₹{{ order.coupon_discount|floatformat:2 }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="summary-row">
+                        <span class="text-muted">Shipping</span>
+                        <span class="{% if order.shipping_charge == 0 %}text-success{% endif %}">
+                            {% if order.shipping_charge == 0 %}FREE{% else %}₹{{ order.shipping_charge|floatformat:2 }}{% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span class="text-muted">Tax (18%)</span>
+                        <span>₹{{ order.tax_amount|floatformat:2 }}</span>
+                    </div>
+                    
+                    {% if order.wallet_amount > 0 %}
+                    <div class="summary-row text-warning">
+                        <span>Wallet Payment</span>
+                        <span>-₹{{ order.wallet_amount|floatformat:2 }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="summary-total">
+                        <div class="d-flex justify-content-between">
+                            <strong>Total Amount</strong>
+                            <strong class="fs-5" style="color: var(--primary-color);">₹{{ order.total_amount|floatformat:2 }}</strong>
+                        </div>
+                    </div>
+                    
+                    {% if order.amount_to_pay > 0 and order.payment_status == 'pending' %}
+                    <div class="alert-custom mt-3" style="background: #fff3cd; border-color: #ffc107;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Amount to pay:</span>
+                            <strong class="fs-6">₹{{ order.amount_to_pay|floatformat:2 }}</strong>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Shipping Address Card -->
+            <div class="order-card">
+                <div class="order-card-header">
+                    <h5>
+                        <i class="fas fa-map-marker-alt"></i>
+                        Shipping Address
+                    </h5>
+                </div>
+                <div class="order-card-body">
+                    <div class="address-card">
+                        <div class="fw-bold mb-2">{{ order.shipping_address.full_name }}</div>
+                        <div class="mb-2">
+                            <i class="fas fa-phone me-2 text-muted"></i>{{ order.shipping_address.phone }}
+                        </div>
+                        <div class="mb-2">
+                            {{ order.shipping_address.address_line1 }}
+                            {% if order.shipping_address.address_line2 %}
+                            , {{ order.shipping_address.address_line2 }}
+                            {% endif %}
+                        </div>
+                        {% if order.shipping_address.landmark %}
+                        <div class="mb-2">
+                            <i class="fas fa-map-pin me-2 text-muted"></i>
+                            Landmark: {{ order.shipping_address.landmark }}
+                        </div>
+                        {% endif %}
+                        <div class="mb-2">
+                            <i class="fas fa-city me-2 text-muted"></i>
+                            {{ order.shipping_address.city }}, {{ order.shipping_address.state }}
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-mail-bulk me-2 text-muted"></i>
+                            {{ order.shipping_address.postal_code }}
+                        </div>
+                        <div class="mb-0">
+                            <i class="fas fa-globe me-2 text-muted"></i>
+                            {{ order.shipping_address.country }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Card -->
+            <div class="help-card">
+                <i class="fas fa-headset fa-3x mb-3" style="color: var(--accent-color);"></i>
+                <h6 class="mb-2">Need Help with Your Order?</h6>
+                <p class="text-muted small mb-3">
+                    Contact our customer support for any questions about your order.
+                </p>
+                <a href="mailto:support@sanjeri.com" class="btn-outline-custom">
+                    <i class="fas fa-envelope me-2"></i>Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Return Order Modal -->
+{% if order.can_be_returned %}
+<div class="modal fade" id="returnOrderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; overflow: hidden;">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+                <h5 class="modal-title">Return Order #{{ order.order_number }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{% url 'request_return' order.id %}">   
+                {% csrf_token %}
+                <div class="modal-body" style="padding: 25px;">
+                    <p class="mb-3">Please provide a reason for returning this order.</p>
+                    
+                    <div class="mb-4">
+                        <label for="returnReason" class="form-label fw-bold">Reason for return <span class="text-danger">*</span>:</label>
+                        <textarea class="form-control" id="returnReason" name="return_reason" 
+                                  rows="4" placeholder="Please provide a detailed reason for return..." 
+                                  style="border-radius: 12px; border-color: var(--border-light);"
+                                  required></textarea>
+                    </div>
+                    
+                    <div class="alert-custom" style="background: #f8f9fa; border-color: var(--border-light);">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-info-circle me-2 mt-1" style="color: var(--accent-color);"></i>
+                            <div>
+                                <h6 class="mb-2 fw-bold">Return Policy</h6>
+                                <ul class="mb-0 ps-3 small">
+                                    <li>Returns accepted within 7 days of delivery</li>
+                                    <li>Products must be unused and in original packaging</li>
+                                    <li>Refund amount: <strong>₹{{ order.total_amount|floatformat:2 }}</strong></li>
+                                    <li>Refund will be processed to your wallet after admin approval</li>
+                                    <li>Approval may take 1-2 business days</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--border-light);">
+                    <button type="button" class="btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn-warning-custom">Submit Return Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const payNowBtn = document.getElementById('payNowBtn');
+    
+    async function initiatePayment(orderId) {
+        try {
+            payNowBtn.disabled = true;
+            payNowBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+            
+            const response = await fetch(`/payment/initiate/${orderId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                const options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: 'Sanjeri Perfumes',
+                    description: `Order #${data.order_number}`,
+                    order_id: data.razorpay_order_id,
+                    handler: function(response) {
+                        verifyPayment(response, orderId);
+                    },
+                    prefill: {
+                        name: data.customer_name,
+                        email: data.customer_email,
+                        contact: data.customer_phone || ''
+                    },
+                    theme: { color: '#431405' },
+                    modal: {
+                        ondismiss: function() {
+                            payNowBtn.disabled = false;
+                            payNowBtn.innerHTML = '<i class="fas fa-credit-card me-2"></i>Pay ₹{{ order.amount_to_pay|floatformat:2 }}';
+                        }
+                    }
+                };
+                
+                const rzp = new Razorpay(options);
+                rzp.open();
+                
+            } else {
+                alert('Error: ' + data.message);
+                payNowBtn.disabled = false;
+                payNowBtn.innerHTML = '<i class="fas fa-credit-card me-2"></i>Pay ₹{{ order.amount_to_pay|floatformat:2 }}';
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error initiating payment. Please try again.');
+            payNowBtn.disabled = false;
+            payNowBtn.innerHTML = '<i class="fas fa-credit-card me-2"></i>Pay ₹{{ order.amount_to_pay|floatformat:2 }}';
+        }
+    }
+    
+    async function verifyPayment(response, orderId) {
+        try {
+            const verifyResponse = await fetch('{% url "verify_payment" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    order_id: orderId
+                })
+            });
+            
+            const data = await verifyResponse.json();
+            
+            if (data.success) {
+                window.location.href = data.redirect_url;
+            } else {
+                alert('Payment verification failed: ' + data.message);
+                window.location.reload();
+            }
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error verifying payment. Please check your order status.');
+            window.location.reload();
+        }
+    }
+    
+    if (payNowBtn) {
+        payNowBtn.addEventListener('click', function() {
+            if (confirm('You will be redirected to a secure payment page. Continue?')) {
+                const orderId = this.getAttribute('data-order-id');
+                initiatePayment(orderId);
+            }
+        });
+    }
+    
+    const returnForm = document.querySelector('form[action*="request_return"]');
+    if (returnForm) {
+        returnForm.addEventListener('submit', function(e) {
+            const reasonField = document.getElementById('returnReason');
+            if (!reasonField.value.trim()) {
+                e.preventDefault();
+                alert('Please provide a reason for return.');
+                reasonField.focus();
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

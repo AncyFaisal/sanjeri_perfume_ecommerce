@@ -1,0 +1,516 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary-color: #431405;
+        --secondary-color: #5a2a1a;
+        --accent-color: #c7a17a;
+        --light-bg: #fff8f5;
+        --dark-text: #2c2c2c;
+        --border-light: #e9e2dc;
+    }
+
+    /* Profile Hero Section */
+    .profile-hero {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        padding: 50px 0;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        animation: shimmer 20s linear infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(30px, 30px); }
+    }
+    
+    .profile-hero h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .profile-hero p {
+        font-size: 1rem;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Profile Sidebar */
+    .profile-sidebar {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .profile-avatar-section {
+        padding: 30px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #faf7f4 0%, #f5f0ea 100%);
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .avatar-container {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        border-radius: 50%;
+        background: white;
+        padding: 5px;
+        box-shadow: 0 8px 20px rgba(67, 20, 5, 0.15);
+        transition: transform 0.3s ease;
+    }
+    
+    .avatar-container:hover {
+        transform: scale(1.05);
+    }
+    
+    .avatar-img {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--accent-color);
+    }
+    
+    .profile-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .profile-email {
+        font-size: 0.85rem;
+        color: #7a6a5c;
+        word-break: break-all;
+    }
+    
+    .profile-nav {
+        padding: 10px 0;
+    }
+    
+    .profile-nav-item {
+        padding: 12px 20px;
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s;
+        border-left: 3px solid transparent;
+    }
+    
+    .profile-nav-item i {
+        width: 22px;
+        color: var(--accent-color);
+        font-size: 1rem;
+    }
+    
+    .profile-nav-item:hover {
+        background: #f8f5f2;
+        padding-left: 25px;
+    }
+    
+    .profile-nav-item.active {
+        background: #f8f5f2;
+        border-left-color: var(--accent-color);
+        font-weight: 500;
+    }
+    
+    /* Profile Content */
+    .profile-content {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid var(--border-light);
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .profile-content-header {
+        background: linear-gradient(135deg, #faf7f4 0%, #f5f0ea 100%);
+        padding: 20px 25px;
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .profile-content-header h4 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin: 0;
+    }
+    
+    .profile-info {
+        padding: 25px;
+    }
+    
+    .info-row {
+        display: flex;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        width: 140px;
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+    
+    .info-value {
+        flex: 1;
+        color: #5a5a5a;
+        font-size: 0.95rem;
+    }
+    
+    .info-value a {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+    
+    .info-value a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Action Buttons */
+    .profile-actions {
+        padding: 20px 25px;
+        border-top: 1px solid var(--border-light);
+        background: #faf7f4;
+        display: flex;
+        gap: 15px;
+    }
+    
+    .btn-edit {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-edit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(67, 20, 5, 0.2);
+        color: white;
+    }
+    
+    .btn-password {
+        background: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--border-light);
+        border-radius: 30px;
+        padding: 10px 25px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-password:hover {
+        background: #f8f5f2;
+        border-color: var(--primary-color);
+    }
+    
+    /* Alert Styles */
+    .alert-custom {
+        background: #fff3e6;
+        border: 1px solid #ffd9b5;
+        border-radius: 12px;
+        color: #b85c1a;
+        margin-bottom: 20px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .profile-hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .profile-hero p {
+            font-size: 0.9rem;
+        }
+        
+        .info-row {
+            flex-direction: column;
+        }
+        
+        .info-label {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        
+        .profile-actions {
+            flex-direction: column;
+        }
+        
+        .profile-actions .btn {
+            width: 100%;
+        }
+        
+        .avatar-container {
+            width: 120px;
+            height: 120px;
+        }
+        
+        .profile-name {
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-hero h1 {
+            font-size: 1.5rem;
+        }
+        
+        .profile-content-header h4 {
+            font-size: 1.2rem;
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+        }
+        
+        .info-value {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Profile Hero Section -->
+<div class="profile-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="text-white">My Profile</h1>
+                <p class="text-white-50">Manage your account information and preferences</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="cart-count-badge text-white d-inline-block">
+                    <i class="fas fa-user-circle me-2"></i>
+                    Welcome back, {{ user.first_name|default:user.username }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <div class="profile-sidebar">
+                <div class="profile-avatar-section">
+                    <div class="avatar-container">
+                        {% if user.profile_image and user.profile_image.name %}
+                            <img src="{{ user.profile_image.url }}" 
+                                 alt="{{ user.get_full_name }}" 
+                                 class="avatar-img"
+                                 onerror="this.onerror=null; this.src='{% static 'css/images/default_avatar.png' %}';">
+                        {% else %}
+                            <img src="{% static 'css/images/default_avatar.png' %}" 
+                                 alt="Default Profile" 
+                                 class="avatar-img">
+                        {% endif %}
+                    </div>
+                    <h5 class="profile-name">{{ user.get_full_name|default:user.username }}</h5>
+                    <p class="profile-email">{{ user.email }}</p>
+                </div>
+                
+                <div class="profile-nav">
+                    <a href="{% url 'user_profile' %}" class="profile-nav-item active">
+                        <i class="fas fa-user"></i>
+                        <span>Profile Overview</span>
+                    </a>
+                    <a href="{% url 'user_address_list' %}" class="profile-nav-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My Addresses</span>
+                    </a>
+                    <a href="{% url 'order_list' %}" class="profile-nav-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>My Orders</span>
+                    </a>
+                    <a href="{% url 'change_password' %}" class="profile-nav-item">
+                        <i class="fas fa-lock"></i>
+                        <span>Change Password</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-8">
+            <div class="profile-content">
+                <div class="profile-content-header">
+                    <h4>Profile Information</h4>
+                </div>
+                
+                <div class="profile-info">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert-custom alert-dismissible fade show p-3 mb-3 rounded" role="alert">
+                                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-user me-2"></i>Full Name
+                        </div>
+                        <div class="info-value">
+                            {{ user.get_full_name|default:"Not provided" }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-envelope me-2"></i>Email Address
+                        </div>
+                        <div class="info-value">
+                            {{ user.email }}
+                            <a href="{% url 'change_email' %}" class="ms-2">
+                                <i class="fas fa-edit"></i> Change
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-phone me-2"></i>Phone Number
+                        </div>
+                        <div class="info-value">
+                            {{ user.phone|default:"Not provided" }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-venus-mars me-2"></i>Gender
+                        </div>
+                        <div class="info-value">
+                            {{ user.get_gender_display|default:"Not specified" }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-map-marker-alt me-2"></i>Address
+                        </div>
+                        <div class="info-value">
+                            {{ user.address|default:"Not provided"|linebreaks }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-calendar-alt me-2"></i>Member Since
+                        </div>
+                        <div class="info-value">
+                            {{ user.date_joined|date:"F d, Y" }}
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="info-label">
+                            <i class="fas fa-gift me-2"></i>Referral Code
+                        </div>
+                        <div class="info-value d-flex align-items-center">
+                            <code id="refCodeTxt" class="me-3 fs-6 p-1 bg-light rounded border px-2 text-dark">{{ user.referral_code }}</code>
+                            <button onclick="copyRefLink()" class="btn btn-sm btn-outline-secondary rounded-pill px-3" style="font-size: 0.8rem; padding-top: 2px; padding-bottom: 2px;">
+                                <i class="fas fa-link me-1"></i> Copy Invite Link
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <script>
+                        function copyRefLink() {
+                            const url = window.location.origin + "{% url 'user_signup' %}?ref_code={{ user.referral_code }}";
+                            navigator.clipboard.writeText(url).then(() => {
+                                alert("Referral link copied to clipboard! Share it with friends.");
+                            }).catch(err => {
+                                console.error('Failed to copy: ', err);
+                            });
+                        }
+                    </script>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="{% url 'edit_profile' %}" class="btn-edit">
+                        <i class="fas fa-edit me-2"></i>Edit Profile
+                    </a>
+                    <a href="{% url 'change_password' %}" class="btn-password">
+                        <i class="fas fa-key me-2"></i>Change Password
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert-custom');
+            alerts.forEach(function (alert) {
+                if (alert.parentNode) {
+                    alert.style.opacity = '0';
+                    alert.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => {
+                        if (alert.parentNode) alert.remove();
+                    }, 300);
+                }
+            });
+        }, 5000);
+    });
+    
+    // Image loading debug (optional)
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainAvatar = document.querySelector('.avatar-img');
+        if (mainAvatar) {
+            const testImg = new Image();
+            testImg.src = mainAvatar.src;
+            testImg.onload = function() {
+                console.log('✅ Avatar loaded successfully');
+            };
+            testImg.onerror = function() {
+                console.warn('⚠️ Avatar failed to load, using default');
+            };
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

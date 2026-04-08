@@ -1,0 +1,370 @@
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Changes to be committed:
+	new file:   ../.env.example
+	new file:   ../.kiro/specs/cod-order-refund-fix/design.md
+	new file:   ../.kiro/specs/cod-order-refund-fix/requirements.md
+	new file:   ../.kiro/specs/cod-order-refund-fix/tasks.md
+	new file:   ../IMAGE_MANAGEMENT.md
+	new file:   ../build.sh
+	new file:   ../check_image_paths.py
+	new file:   ../fix_settings_now.py
+	new file:   ../manage.py
+	new file:   ../ngrok.exe
+	new file:   ../render.yaml
+	new file:   ../requirements.txt
+	new file:   __init__.py
+	new file:   asgi.py
+	new file:   build.bat
+	new file:   settings.py
+	new file:   settings.py.backup
+	new file:   urls.py
+	new file:   wsgi.py
+	new file:   ../static/css/admin_style.css
+	new file:   ../static/css/css/ajax-loader.gif
+	new file:   ../static/css/css/image-cropper.css
+	new file:   ../static/css/css/normalize.css
+	new file:   ../static/css/css/vendor.css
+	new file:   ../static/css/images/default_avatar.png
+	new file:   ../static/css/js/cart.js
+	new file:   ../static/css/js/jquery-1.11.0.min.js
+	new file:   ../static/css/js/modernizr.js
+	new file:   ../static/css/js/plugins.js
+	new file:   ../static/css/js/script.js
+	new file:   ../static/css/style.css
+	new file:   ../static/js/admin_script.js
+	new file:   ../static/js/wishlist.js
+	new file:   ../staticfiles/account/js/account.js
+	new file:   ../staticfiles/account/js/onload.js
+	new file:   ../staticfiles/admin/css/autocomplete.css
+	new file:   ../staticfiles/admin/css/base.css
+	new file:   ../staticfiles/admin/css/changelists.css
+	new file:   ../staticfiles/admin/css/dark_mode.css
+	new file:   ../staticfiles/admin/css/dashboard.css
+	new file:   ../staticfiles/admin/css/forms.css
+	new file:   ../staticfiles/admin/css/login.css
+	new file:   ../staticfiles/admin/css/nav_sidebar.css
+	new file:   ../staticfiles/admin/css/responsive.css
+	new file:   ../staticfiles/admin/css/responsive_rtl.css
+	new file:   ../staticfiles/admin/css/rtl.css
+	new file:   ../staticfiles/admin/css/unusable_password_field.css
+	new file:   ../staticfiles/admin/css/vendor/select2/LICENSE-SELECT2.md
+	new file:   ../staticfiles/admin/css/vendor/select2/select2.css
+	new file:   ../staticfiles/admin/css/vendor/select2/select2.min.css
+	new file:   ../staticfiles/admin/css/widgets.css
+	new file:   ../staticfiles/admin/img/LICENSE
+	new file:   ../staticfiles/admin/img/README.txt
+	new file:   ../staticfiles/admin/img/calendar-icons.svg
+	new file:   ../staticfiles/admin/img/gis/move_vertex_off.svg
+	new file:   ../staticfiles/admin/img/gis/move_vertex_on.svg
+	new file:   ../staticfiles/admin/img/icon-addlink.svg
+	new file:   ../staticfiles/admin/img/icon-alert.svg
+	new file:   ../staticfiles/admin/img/icon-calendar.svg
+	new file:   ../staticfiles/admin/img/icon-changelink.svg
+	new file:   ../staticfiles/admin/img/icon-clock.svg
+	new file:   ../staticfiles/admin/img/icon-deletelink.svg
+	new file:   ../staticfiles/admin/img/icon-hidelink.svg
+	new file:   ../staticfiles/admin/img/icon-no.svg
+	new file:   ../staticfiles/admin/img/icon-unknown-alt.svg
+	new file:   ../staticfiles/admin/img/icon-unknown.svg
+	new file:   ../staticfiles/admin/img/icon-viewlink.svg
+	new file:   ../staticfiles/admin/img/icon-yes.svg
+	new file:   ../staticfiles/admin/img/inline-delete.svg
+	new file:   ../staticfiles/admin/img/search.svg
+	new file:   ../staticfiles/admin/img/selector-icons.svg
+	new file:   ../staticfiles/admin/img/sorting-icons.svg
+	new file:   ../staticfiles/admin/img/tooltag-add.svg
+	new file:   ../staticfiles/admin/img/tooltag-arrowright.svg
+	new file:   ../staticfiles/admin/js/SelectBox.js
+	new file:   ../staticfiles/admin/js/SelectFilter2.js
+	new file:   ../staticfiles/admin/js/actions.js
+	new file:   ../staticfiles/admin/js/admin/DateTimeShortcuts.js
+	new file:   ../staticfiles/admin/js/admin/RelatedObjectLookups.js
+	new file:   ../staticfiles/admin/js/autocomplete.js
+	new file:   ../staticfiles/admin/js/calendar.js
+	new file:   ../staticfiles/admin/js/cancel.js
+	new file:   ../staticfiles/admin/js/change_form.js
+	new file:   ../staticfiles/admin/js/core.js
+	new file:   ../staticfiles/admin/js/filters.js
+	new file:   ../staticfiles/admin/js/inlines.js
+	new file:   ../staticfiles/admin/js/jquery.init.js
+	new file:   ../staticfiles/admin/js/nav_sidebar.js
+	new file:   ../staticfiles/admin/js/popup_response.js
+	new file:   ../staticfiles/admin/js/prepopulate.js
+	new file:   ../staticfiles/admin/js/prepopulate_init.js
+	new file:   ../staticfiles/admin/js/theme.js
+	new file:   ../staticfiles/admin/js/unusable_password_field.js
+	new file:   ../staticfiles/admin/js/urlify.js
+	new file:   ../staticfiles/admin/js/vendor/jquery/LICENSE.txt
+	new file:   ../staticfiles/admin/js/vendor/jquery/jquery.js
+	new file:   ../staticfiles/admin/js/vendor/jquery/jquery.min.js
+	new file:   ../staticfiles/admin/js/vendor/select2/LICENSE.md
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/af.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ar.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/az.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/bg.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/bn.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/bs.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ca.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/cs.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/da.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/de.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/dsb.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/el.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/en.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/es.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/et.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/eu.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/fa.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/fi.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/fr.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/gl.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/he.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/hi.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/hr.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/hsb.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/hu.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/hy.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/id.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/is.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/it.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ja.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ka.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/km.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ko.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/lt.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/lv.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/mk.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ms.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/nb.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ne.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/nl.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/pl.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ps.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/pt-BR.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/pt.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ro.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/ru.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sk.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sl.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sq.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sr-Cyrl.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sr.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/sv.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/th.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/tk.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/tr.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/uk.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/vi.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/zh-CN.js
+	new file:   ../staticfiles/admin/js/vendor/select2/i18n/zh-TW.js
+	new file:   ../staticfiles/admin/js/vendor/select2/select2.full.js
+	new file:   ../staticfiles/admin/js/vendor/select2/select2.full.min.js
+	new file:   ../staticfiles/admin/js/vendor/xregexp/LICENSE.txt
+	new file:   ../staticfiles/admin/js/vendor/xregexp/xregexp.js
+	new file:   ../staticfiles/admin/js/vendor/xregexp/xregexp.min.js
+	new file:   ../staticfiles/css/admin_style.css
+	new file:   ../staticfiles/css/css/ajax-loader.gif
+	new file:   ../staticfiles/css/css/normalize.css
+	new file:   ../staticfiles/css/css/vendor.css
+	new file:   ../staticfiles/css/js/jquery-1.11.0.min.js
+	new file:   ../staticfiles/css/js/modernizr.js
+	new file:   ../staticfiles/css/js/plugins.js
+	new file:   ../staticfiles/css/js/script.js
+	new file:   ../staticfiles/css/style.css
+	new file:   ../staticfiles/facebook/js/fbconnect.js
+	new file:   ../staticfiles/js/admin_script.js
+	new file:   ../templates/admin/coupon/create.html
+	new file:   ../templates/admin/coupon/list.html
+	new file:   ../templates/admin/coupon/trash.html
+	new file:   ../templates/admin/inventory/inventory_management.html
+	new file:   ../templates/admin/ledger_book.html
+	new file:   ../templates/admin/offers/category_offer_form.html
+	new file:   ../templates/admin/offers/category_offer_list.html
+	new file:   ../templates/admin/offers/product_offer_form.html
+	new file:   ../templates/admin/offers/product_offer_list.html
+	new file:   ../templates/admin/order_change_form.html
+	new file:   ../templates/admin/orders/approve_return.html
+	new file:   ../templates/admin/orders/order_change_form.html
+	new file:   ../templates/admin/orders/order_detail.html
+	new file:   ../templates/admin/orders/order_list.html
+	new file:   ../templates/admin/orders/reject_return.html
+	new file:   ../templates/admin/sales_report/report.html
+	new file:   ../templates/admin/wallet/pending_refunds.html
+	new file:   ../templates/admin/wallet/transaction_detail.html
+	new file:   ../templates/admin/wallet/transactions.html
+	new file:   ../templates/admin/wallet/user_wallet.html
+	new file:   ../templates/admin_dashboard.html
+	new file:   ../templates/base.html
+	new file:   ../templates/brands.html
+	new file:   ../templates/cart.html
+	new file:   ../templates/cart_debug.html
+	new file:   ../templates/category_add.html
+	new file:   ../templates/category_edit.html
+	new file:   ../templates/category_filter.html
+	new file:   ../templates/category_manage.html
+	new file:   ../templates/category_success.html
+	new file:   ../templates/checkout/checkout.html
+	new file:   ../templates/checkout/order_details.html
+	new file:   ../templates/checkout/order_success.html
+	new file:   ../templates/checkout/partials/_coupon_section.html
+	new file:   ../templates/checkout/payment_failed.html
+	new file:   ../templates/collections.html
+	new file:   ../templates/common_admin.html
+	new file:   ../templates/commonhome.html
+	new file:   ../templates/commonhometrail.html
+	new file:   ../templates/forgot_password.html
+	new file:   ../templates/headsearch_result.html
+	new file:   ../templates/home.html
+	new file:   ../templates/homefilter.html
+	new file:   ../templates/homepage.html
+	new file:   ../templates/includes/footer.html
+	new file:   ../templates/includes/header.html
+	new file:   ../templates/includes/modals.html
+	new file:   ../templates/includes/wishlist_button.html
+	new file:   ../templates/login.html
+	new file:   ../templates/men.html
+	new file:   ../templates/orders/cancel_order.html
+	new file:   ../templates/orders/invoice_pdf.html
+	new file:   ../templates/orders/order_detail.html
+	new file:   ../templates/orders/order_list.html
+	new file:   ../templates/orders/refund_status.html
+	new file:   ../templates/orders/request_item_return.html
+	new file:   ../templates/orders/request_return.html
+	new file:   ../templates/orders/return_request.html
+	new file:   ../templates/payment/error.html
+	new file:   ../templates/payment/failure.html
+	new file:   ../templates/payment/payment_details.html
+	new file:   ../templates/payment/payment_failed.html
+	new file:   ../templates/payment/success.html
+	new file:   ../templates/payment/success_redirect.html
+	new file:   ../templates/payment/test_connection.html
+	new file:   ../templates/product_add.html
+	new file:   ../templates/product_confirm_delete.html
+	new file:   ../templates/product_detail.html
+	new file:   ../templates/product_edit.html
+	new file:   ../templates/product_list.html
+	new file:   ../templates/product_permanent_delete.html
+	new file:   ../templates/product_success.html
+	new file:   ../templates/product_trash.html
+	new file:   ../templates/reset_password.html
+	new file:   ../templates/search_results.html
+	new file:   ../templates/show_user.html
+	new file:   ../templates/unisex.html
+	new file:   ../templates/user/referral_dashboard.html
+	new file:   ../templates/user_address_confirm_delete.html
+	new file:   ../templates/user_address_form.html
+	new file:   ../templates/user_address_list.html
+	new file:   ../templates/user_change_email.html
+	new file:   ../templates/user_change_password.html
+	new file:   ../templates/user_detail.html
+	new file:   ../templates/user_edit_profile.html
+	new file:   ../templates/user_list.html
+	new file:   ../templates/user_login.html
+	new file:   ../templates/user_order_history.html
+	new file:   ../templates/user_profile.html
+	new file:   ../templates/user_signup.html
+	new file:   ../templates/user_verify_email_change.html
+	new file:   ../templates/user_verify_password_change.html
+	new file:   ../templates/variant_confirm_delete.html
+	new file:   ../templates/variant_edit.html
+	new file:   ../templates/verify_otp.html
+	new file:   ../templates/verify_signup_otp.html
+	new file:   ../templates/wallet/add_balance.html
+	new file:   ../templates/wallet/add_balance_bal.html
+	new file:   ../templates/wallet/add_balance_simple.html
+	new file:   ../templates/wallet/add_wallet_balance.html
+	new file:   ../templates/wallet/test_payment.html
+	new file:   ../templates/wallet/transactions.html
+	new file:   ../templates/wallet/wallet_dashboard.html
+	new file:   ../templates/wishlist.html
+	new file:   ../templates/wishlist_items_partial.html
+	new file:   ../templates/women.html
+	new file:   ../test_keys.py
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both added:      ../.gitignore
+	both added:      ../sanjeri_app/views/checkout.py
+	both added:      ../sanjeri_app/views/homepage.py
+	both added:      render.yaml
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    ../.kiro/specs/cod-order-refund-fix/design.md
+	deleted:    ../.kiro/specs/cod-order-refund-fix/requirements.md
+	deleted:    ../.kiro/specs/cod-order-refund-fix/tasks.md
+	deleted:    ../ngrok.exe
+	deleted:    ../render.yaml
+	deleted:    ../sanjeri_app/# test_razorpay_debug.py
+	deleted:    ../sanjeri_app/check_payment_methods.py
+	deleted:    ../sanjeri_app/test_simple.py
+	deleted:    ../sanjeri_app/tests.py
+	deleted:    check_image_paths.py
+	modified:   sanjeri_app/models/__init__.py
+	modified:   sanjeri_app/models/coupon.py
+	modified:   sanjeri_app/models/offer_models.py
+	modified:   sanjeri_app/models/order.py
+	modified:   sanjeri_app/models/user_models.py
+	modified:   sanjeri_app/urls.py
+	modified:   sanjeri_app/utils/offer_utils.py
+	modified:   sanjeri_app/views/admin_offer_views.py
+	modified:   sanjeri_app/views/checkout.py
+	modified:   sanjeri_app/views/homepage.py
+	modified:   sanjeri_app/views/order_management.py
+	modified:   sanjeri_app/views/product.py
+	modified:   sanjeri_app/views/referral_views.py
+	modified:   sanjeri_app/views/user_userprofile_manage.py
+	modified:   sanjeri_app/views/user_views.py
+	modified:   sanjeri_app/views/view_userside.py
+	modified:   sanjeri_app/views/wallet_views.py
+	modified:   sanjeri_app/views/wishlist.py
+	modified:   templates/admin/orders/order_detail.html
+	modified:   templates/base.html
+	modified:   templates/cart.html
+	modified:   templates/checkout/order_success.html
+	modified:   templates/common_admin.html
+	modified:   templates/homepage.html
+	modified:   templates/includes/header.html
+	modified:   templates/men.html
+	modified:   templates/orders/order_list.html
+	modified:   templates/orders/request_item_return.html
+	modified:   templates/payment/payment_failed.html
+	modified:   templates/product_detail.html
+	modified:   templates/product_edit.html
+	modified:   templates/search_results.html
+	modified:   templates/unisex.html
+	modified:   templates/user_profile.html
+	modified:   templates/user_signup.html
+	modified:   templates/verify_otp.html
+	modified:   templates/verify_signup_otp.html
+	modified:   templates/wallet/wallet_dashboard.html
+	modified:   templates/women.html
+	deleted:    ../test_keys.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	README.md
+	check_coupon_db.py
+	check_db.py
+	check_db2.py
+	fix_db.py
+	fix_db2.py
+	git_status.txt
+	sanjeri_app/migrations/0062_seasonaldiscount_alter_offerapplication_offer_type_and_more.py
+	sanjeri_app/migrations/0063_referraloffer_coupon_user_customuser_referral_code_and_more.py
+	sanjeri_app/migrations/0064_productreview.py
+	sanjeri_app/migrations/0065_orderitem_return_requested_quantity_and_more.py
+	sanjeri_app/models/review.py
+	status.txt
+	template_patcher.py
+	template_patcher2.py
+	templates/admin/offers/referral_offer_manage.html
+	templates/admin/offers/seasonal_discount_form.html
+	templates/admin/offers/seasonal_discount_list.html
+	test_returns.py
+
